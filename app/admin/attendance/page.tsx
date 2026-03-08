@@ -163,9 +163,7 @@ export default async function AdminAttendancePage({ searchParams }: Props) {
                           : "-"}
                       </td>
                       <td className="px-4 py-4">
-                        <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                          Present
-                        </span>
+                        <span className="badge-success">Present</span>
                       </td>
                     </tr>
                   );
