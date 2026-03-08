@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     const { data: participantProfile, error: participantError } = await supabase
       .from("profiles")
-      .select("id")
+      .select("id, full_name, phone, year, branch, division, roll_no, email")
       .eq("id", participantId)
       .maybeSingle();
 
@@ -43,9 +43,16 @@ export async function POST(req: NextRequest) {
     }
 
     const { error: insertError } = await supabase.from("attendance").insert({
-      participant_id: participantId,
+      participant_id: participantProfile.id,
       attendance_date: attendanceDate,
       marked_by: user.id,
+      full_name: participantProfile.full_name,
+      phone: participantProfile.phone,
+      year: participantProfile.year,
+      branch: participantProfile.branch,
+      division: participantProfile.division,
+      roll_no: participantProfile.roll_no,
+      email: participantProfile.email,
     });
 
     if (insertError) {

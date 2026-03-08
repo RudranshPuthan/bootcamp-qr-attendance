@@ -31,13 +31,11 @@ export type AttendanceJoinRow = {
   participant_id: string;
   attendance_date: string;
   marked_at: string;
-  participant: {
-    full_name: string;
-    phone: string;
-    year: string;
-    branch: string;
-    division: string;
-    roll_no: string;
-    email: string;
-  }[];
+  full_name: string | null;
+  phone: string | null;
+  year: string | null;
+  branch: string | null;
+  division: string | null;
+  roll_no: string | null;
+  email: string | null;
 };

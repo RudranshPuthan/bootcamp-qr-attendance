@@ -29,15 +29,13 @@ export default async function AdminAttendancePage({ searchParams }: Props) {
       participant_id,
       attendance_date,
       marked_at,
-      participant:profiles!attendance_participant_id_fkey (
-        full_name,
-        phone,
-        year,
-        branch,
-        division,
-        roll_no,
-        email
-      )
+      full_name,
+      phone,
+      year,
+      branch,
+      division,
+      roll_no,
+      email
     `)
     .eq("attendance_date", selectedDate)
     .order("marked_at", { ascending: false });
@@ -120,54 +118,29 @@ export default async function AdminAttendancePage({ searchParams }: Props) {
             <tbody>
               {rows.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={10}
-                    className="px-4 py-8 text-center text-sm text-slate-500"
-                  >
+                  <td colSpan={10} className="px-4 py-8 text-center text-sm text-slate-500">
                     No participants marked present for this day.
                   </td>
                 </tr>
               ) : (
-                rows.map((row) => {
-                  const participant = row.participant?.[0];
-
-                  return (
-                    <tr key={row.id} className="border-t border-slate-100 bg-white">
-                      <td className="px-4 py-4 font-medium text-slate-900">
-                        {participant?.full_name ?? "-"}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {participant?.phone ?? "-"}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {participant?.year ?? "-"}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {participant?.branch ?? "-"}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {participant?.division ?? "-"}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {participant?.roll_no ?? "-"}
-                      </td>
-                      <td className="max-w-[220px] truncate px-4 py-4 text-sm text-slate-600">
-                        {participant?.email ?? "-"}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {row.attendance_date}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-slate-600">
-                        {row.marked_at
-                          ? new Date(row.marked_at).toLocaleString("en-IN")
-                          : "-"}
-                      </td>
-                      <td className="px-4 py-4">
-                        <span className="badge-success">Present</span>
-                      </td>
-                    </tr>
-                  );
-                })
+                rows.map((row) => (
+                  <tr key={row.id} className="border-t border-slate-100 bg-white">
+                    <td className="px-4 py-4 font-medium text-slate-900">{row.full_name ?? "-"}</td>
+                    <td className="px-4 py-4 text-sm text-slate-600">{row.phone ?? "-"}</td>
+                    <td className="px-4 py-4 text-sm text-slate-600">{row.year ?? "-"}</td>
+                    <td className="px-4 py-4 text-sm text-slate-600">{row.branch ?? "-"}</td>
+                    <td className="px-4 py-4 text-sm text-slate-600">{row.division ?? "-"}</td>
+                    <td className="px-4 py-4 text-sm text-slate-600">{row.roll_no ?? "-"}</td>
+                    <td className="max-w-[220px] truncate px-4 py-4 text-sm text-slate-600">{row.email ?? "-"}</td>
+                    <td className="px-4 py-4 text-sm text-slate-600">{row.attendance_date}</td>
+                    <td className="px-4 py-4 text-sm text-slate-600">
+                      {row.marked_at ? new Date(row.marked_at).toLocaleString("en-IN") : "-"}
+                    </td>
+                    <td className="px-4 py-4">
+                      <span className="badge-success">Present</span>
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>

@@ -44,15 +44,13 @@ export async function GET(req: NextRequest) {
       participant_id,
       attendance_date,
       marked_at,
-      participant:profiles!attendance_participant_id_fkey (
-        full_name,
-        phone,
-        year,
-        branch,
-        division,
-        roll_no,
-        email
-      )
+      full_name,
+      phone,
+      year,
+      branch,
+      division,
+      roll_no,
+      email
     `)
     .order("attendance_date", { ascending: true })
     .order("marked_at", { ascending: false });
@@ -81,23 +79,17 @@ export async function GET(req: NextRequest) {
       "Attendance Date",
       "Marked At",
     ],
-    ...rows.map((row) => {
-      const participant = row.participant?.[0];
-
-      return [
-        csvEscape(participant?.full_name),
-        csvEscape(participant?.phone),
-        csvEscape(participant?.year),
-        csvEscape(participant?.branch),
-        csvEscape(participant?.division),
-        csvEscape(participant?.roll_no),
-        csvEscape(participant?.email),
-        csvEscape(row.attendance_date),
-        csvEscape(
-          row.marked_at ? new Date(row.marked_at).toLocaleString("en-IN") : ""
-        ),
-      ];
-    }),
+    ...rows.map((row) => [
+      csvEscape(row.full_name),
+      csvEscape(row.phone),
+      csvEscape(row.year),
+      csvEscape(row.branch),
+      csvEscape(row.division),
+      csvEscape(row.roll_no),
+      csvEscape(row.email),
+      csvEscape(row.attendance_date),
+      csvEscape(row.marked_at ? new Date(row.marked_at).toLocaleString("en-IN") : ""),
+    ]),
   ];
 
   const csvContent = csvRows.map((row) => row.join(",")).join("\n");
@@ -106,8 +98,7 @@ export async function GET(req: NextRequest) {
     status: 200,
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="attendance${selectedDate ? `-${selectedDate}` : ""
-        }.csv"`,
+      "Content-Disposition": `attachment; filename="attendance${selectedDate ? `-${selectedDate}` : ""}.csv"`,
     },
   });
 }
